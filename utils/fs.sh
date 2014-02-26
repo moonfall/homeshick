@@ -41,12 +41,18 @@ function symlink {
 					ignore 'exists' "$filename"
 					continue
 				fi
+				#if ! $FORCE; then
+				#	prompt_no 'conflict' "$filename exists" "overwrite?" || continue
+				#fi
+				## Delete $local. If $remote is a real directory,
+				## $local must be a file (because of all the previous checks)
+				#rm -rf "$local"
 				if ! $FORCE; then
-					prompt_no 'conflict' "$filename exists" "overwrite?" || continue
+					prompt_no 'conflict' "$filename exists" "replace?" || continue
 				fi
-				# Delete $local. If $remote is a real directory,
+				# mv $local. If $remote is a real directory,
 				# $local must be a file (because of all the previous checks)
-				rm -rf "$local"
+				mv $local $local.save.`date +%s`
 			fi
 		fi
 
