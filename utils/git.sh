@@ -75,6 +75,8 @@ function pull {
 	pending 'pull' $castle
 	castle_exists 'pull' $castle
 
+	local start_head=$(cd "$repo"; git rev-parse HEAD)
+
 	local git_out
 	git_out=$(cd "$repo"; git pull 2>&1)
 	[[ $? == 0 ]] || err $EX_SOFTWARE "Unable to pull $repo. Git says:" "$git_out"
@@ -88,6 +90,13 @@ function pull {
 		[[ $? == 0 ]] || err $EX_SOFTWARE "Unable update submodules for $repo. Git says:" "$git_out"
 	fi
 	success
+
+	local end_head=$(cd "$repo"; git rev-parse HEAD)
+	if [[ $start_head != $end_head ]]; then
+		#(cd "$repo"; git --no-pager log --oneline --no-merges --reverse --stat $start_head.. 2>&1)
+		(cd "$repo"; git --no-pager log --oneline --no-merges --reverse $start_head.. 2>&1; git --no-pager diff --stat $start_head.. 2>&1)
+	fi
+
 	return $EX_SUCCESS
 }
 
