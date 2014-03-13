@@ -16,6 +16,7 @@ printf "homes${bldblu}h${txtdef}ick uses git in concert with symlinks to track y
   homeshick check [CASTLE..]          # Check a castle for updates
   homeshick refresh [DAYS] [CASTLE..] # Check if a castle needs refreshing
   homeshick pull [CASTLE..]           # Update a castle
+  homeshick push [CASTLE..]           # Update a repository
   homeshick link [CASTLE..]           # Symlinks all dotfiles from a castle
   homeshick track CASTLE FILE..       # Add a file to a castle
   homeshick help [TASK]               # Show usage of a task
@@ -31,7 +32,7 @@ printf "homes${bldblu}h${txtdef}ick uses git in concert with symlinks to track y
    -b, [--batch]    # Batch-mode: Skip interactive prompts / Choose the default
 
  Note:
-  To check, refresh, pull or symlink all your castles
+  To check, refresh, pull, push or symlink all your castles
   simply omit the CASTLE argument
 
 "
@@ -73,6 +74,10 @@ function extended_help {
 		pull)
       printf "Updates a castle. Also recurse into submodules.\n"
       printf "Usage:\n  homeshick pull [CASTLE..]"
+      ;;
+		push)
+      printf "Updates a repository.\n"
+      printf "Usage:\n  homeshick push [CASTLE..]"
       ;;
 		link|symlink)
       printf "Symlinks all dotfiles from a castle\n"
