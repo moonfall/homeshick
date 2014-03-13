@@ -138,7 +138,11 @@ function check {
 	local remote_name=$(cd "$repo"; git config branch.$branch.remote 2>/dev/null)
 	local remote_url=$(cd "$repo"; git config remote.$remote_name.url 2>/dev/null)
 	local remote_head=$(git ls-remote -q --heads "$remote_url" "$branch" 2>/dev/null | cut -f 1)
-	if [[ $remote_head ]]; then
+	local git_status=$(cd "$repo"; git status -s --ignore-submodules=dirty 2> /dev/null | tail -n1)
+	if [[ -n $git_status ]]; then
+		fail 'dirty'
+		exit_status=$EX_DIRTY
+	elif [[ $remote_head ]]; then
 		local local_head=$(cd "$repo"; git rev-parse HEAD)
 		if [[ $remote_head == $local_head ]]; then
 			success 'up to date'
