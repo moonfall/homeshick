@@ -11,7 +11,7 @@ function symlink {
 	fi
 	oldIFS=$IFS
 	IFS=$'\n'
-	for remote in $(find "$repo/home" -mindepth 1 -name .git -prune -o -print); do
+	for remote in $(find "$repo/home" -mindepth 1 -name .git -prune -o -name '.*.swp' -prune -o -print); do
 		IFS=$oldIFS
 		filename=${remote#$repo/home/}
 		local=$HOME/$filename
