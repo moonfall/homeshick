@@ -107,6 +107,12 @@ function push {
 	pending 'push' $castle
 	castle_exists 'push' $castle
 
+	should_push=$(cd "$repo"; git config --get homeshick.push)
+	if [[ "$should_push" != "true" ]]; then
+		ignore 'unavailable'
+		return $EX_SUCCESS
+	fi
+
 	local git_out
 	git_out=$(cd "$repo"; git push 2>&1)
 	[[ $? == 0 ]] || err $EX_SOFTWARE "Unable to push $repo. Git says:" "$git_out"
