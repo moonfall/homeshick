@@ -94,7 +94,13 @@ function pull {
 	local end_head=$(cd "$repo"; git rev-parse HEAD)
 	if [[ $start_head != $end_head ]]; then
 		#(cd "$repo"; git --no-pager log --oneline --no-merges --reverse --stat $start_head.. 2>&1)
-		(cd "$repo"; git --no-pager log --oneline --no-merges --reverse $start_head.. 2>&1; git --no-pager diff --stat $start_head.. 2>&1)
+		should_push=$(cd "$repo"; git config --get homeshick.pullinfo)
+		if [[ "$should_push" == "detailed" ]]; then
+			(cd "$repo"; git --no-pager log --no-merges --reverse --stat $start_head.. 2>&1)
+		elif [[ "$should_push" != "none" ]]; then
+			# default
+			(cd "$repo"; git --no-pager log --oneline --no-merges --reverse $start_head.. 2>&1; git --no-pager diff --stat $start_head.. 2>&1)
+		fi
 	fi
 
 	return $EX_SUCCESS
