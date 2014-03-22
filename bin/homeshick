@@ -114,6 +114,11 @@ if [[ ! $params ]]; then
 		# These commands require parameters, show the help message instead
 		cd | clone | generate | track) help_cmd=$cmd; cmd="help"; exit_status=$EX_USAGE ;;
 	esac
+
+	# push needs to differentiate between an explicit push or a default
+	if [[ "$cmd" == "push" ]]; then
+		cmd=push_all
+	fi
 fi
 
 # Default param for refresh is 7
@@ -132,6 +137,7 @@ case $cmd in
 				refresh)       refresh $threshhold "$param" ;;
 				pull)          pull "$param"                ;;
 				push)          push "$param"                ;;
+				push_all)      push_all "$param"            ;;
 				symlink|link)  symlink "$param"             ;;
 				track)         track "$castle" "$param"     ;;
 			esac
