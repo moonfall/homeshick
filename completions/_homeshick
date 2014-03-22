@@ -8,7 +8,7 @@ _homeshick () {
 		'(-f --force)'{-s,--skip}'[Skip files that already exist]' \
 		{-b,--batch}'[Batch-mode: Skip interactive prompt]' \
 		{-h,--help}'[Help message]' \
-		'1:commands:(cd clone generate list check refresh pull link track help)' \
+		'1:commands:(cd clone generate list check refresh pull push link track help)' \
 		'*::arguments:->arguments' \
 		&& ret=0
 
@@ -39,7 +39,7 @@ _homeshick () {
 				;;
 				(help)
 					_arguments \
-						':command:(cd clone generate list check refresh pull link track help)' \
+						':command:(cd clone generate list check refresh pull push link track help)' \
 					&& ret=0
 				;;
 			esac

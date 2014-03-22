@@ -68,6 +68,7 @@ _homeshick_complete()
         check
         refresh
         pull
+	push
         link
         track
         help
@@ -117,7 +118,7 @@ _homeshick_complete()
     else
         # Offer command argument completions.
         case "$cmd" in
-            check | pull | link | symlink | updates)
+            check | pull | push | link | symlink | updates)
                 # Offer one or more castle name completions.
                 _homeshick_complete_castles "$cur"
                 ;;
